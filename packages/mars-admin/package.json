@@ -1,0 +1,57 @@
+{
+  "name": "mars-admin",
+  "version": "0.0.0",
+  "description": "ls",
+  "author": "siyuan.cao <ll900618@163.com>",
+  "homepage": "https://github.com/CaoLeilei/Mars#readme",
+  "license": "ISC",
+  "main": "lib/mars-admin.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaoLeilei/Mars.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "generate": "vite-ssg build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
+    "element-plus": "^2.6.2",
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.7",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@iconify-json/ep": "^1.1.15",
+    "@types/node": "^20.11.30",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "sass": "^1.72.0",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.3",
+    "unplugin-vue-components": "^0.26.0",
+    "vite": "^5.2.5",
+    "vite-ssg": "^0.23.6",
+    "vue-tsc": "^2.0.7"
+  },
+  "bugs": {
+    "url": "https://github.com/CaoLeilei/Mars/issues"
+  }
+}
