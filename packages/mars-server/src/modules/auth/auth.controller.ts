@@ -7,9 +7,15 @@ import { AuthService } from './auth.service'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/login')
+  @Post('login')
   public Login(userLoginDto: UserLoginDto): Observable<any> {
     console.log(userLoginDto)
     return this.authService.login(userLoginDto)
+  }
+
+  @Post('register')
+  public Register(userLoginDto: UserLoginDto): Observable<any> {
+    console.log(userLoginDto)
+    return this.authService.register(userLoginDto)
   }
 }

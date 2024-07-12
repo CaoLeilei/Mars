@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AppConfigsController } from './app_configs.controller'
+import { AppConfigsController } from '../app_configs.controller'
 
 describe('AppConfigsController', () => {
   let controller: AppConfigsController

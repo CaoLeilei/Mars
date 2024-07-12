@@ -91,4 +91,8 @@ export class AuthService {
       }),
     )
   }
+
+  register(user: User): Observable<User> {
+    // return from(this.userRepository.persistAndFlush(user)).pipe(map(() => user))
+  }
 }
