@@ -5,7 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": ""
+    "dev": "",
+    "start-admin:dev": "cd packages/mars-admin && vite"
   },
   "dependencies": {},
   "devDependencies": {

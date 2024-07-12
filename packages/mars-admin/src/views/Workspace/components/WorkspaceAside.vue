@@ -53,6 +53,8 @@
 
 .wp-menu {
   // @apply flex w-full flex-col;
+  @apply h-full border-r-0;
+
   &__item {
     @apply flex flex-col w-full justify-center pt-2 pb-2 mt-2 mb-2 cursor-pointer select-none hover:bg-gray-100;
   }

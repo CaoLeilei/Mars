@@ -1,6 +1,5 @@
 <template>
-  <div>
-
+  <div class="projects">
   </div>
 </template>
 
@@ -9,7 +8,7 @@
 </script>
 
 <style lang="scss" scoped>
-.WProjects {
+.projects {
 
 }
 </style>

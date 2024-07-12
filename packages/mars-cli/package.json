@@ -1,0 +1,29 @@
+{
+  "name": "mars-cli",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "siyuan.cao <ll900618@163.com>",
+  "homepage": "https://github.com/CaoLeilei/Mars#readme",
+  "license": "ISC",
+  "main": "lib/mars-cli.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaoLeilei/Mars.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/mars-cli.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/CaoLeilei/Mars/issues"
+  }
+}
