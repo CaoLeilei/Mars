@@ -2,6 +2,7 @@
 const WorkspaceRoute = {
   name: 'Workspace',
   path: '/workspace',
+  redirect: '/workspace/projects',
   component: () => import('~/views/Workspace/index.vue'),
   meta: {
     title: '工作台',

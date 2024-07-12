@@ -14,9 +14,7 @@
         <WorkspaceHeader />
       </el-header>
       <el-main class="workspace__main">
-        <el-page-header class="workspace__page">
-          <RouterView />
-        </el-page-header>
+        <RouterView />
       </el-main>
       <el-footer height="40px">
         <slot name="footer" />
@@ -55,7 +53,8 @@ import WorkspaceHeader from './components/WorkspaceHeader.vue';
       @apply h-16 pl-3 pr-3 box-border  bg-white;
     }
     ::v-deep(.ep-page-header__main) {
-      @apply bg-gray-200 mt-0 ;
+      height: calc(100vh - 170px);
+      @apply mt-0 box-border p-4 overflow-auto;
     }
   }
 }

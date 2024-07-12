@@ -29,12 +29,10 @@ export class TransformInterceptor<T> implements NestInterceptor<T, SuccessRespon
     console.log(context)
     return next.handle().pipe(
       catchError((error: Error) => {
-        console.log('++++++++++++++++++++++')
         const message: string = error?.message || '服务器有误~'
         return throwError(() => new HttpException(message, 500))
       }),
       map((data) => {
-        console.log('map success++++++')
         return {
           code: 0, // 自定义成功响应的状态码
           message: '请求成功', // 自定义成功响应的消息
