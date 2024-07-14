@@ -3,8 +3,6 @@ import { EntityRepository } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { EntityManager } from '@mikro-orm/better-sqlite'
 
-import { Observable, from, map } from 'rxjs'
-
 import type { User } from '@entities'
 import { RefreshToken } from '@entities'
 
@@ -16,7 +14,7 @@ export class RefreshTokensRepository {
     private readonly refreshTokenRepository: EntityRepository<RefreshToken>,
   ) {}
 
-  createRefreshToken(user: User, ttl: number): Observable<RefreshToken> {
+  async createRefreshToken(user: User, ttl: number): Promise<RefreshToken> {
     const expiration = new Date()
 
     // the input is treated as millis so *1000 is necessary
@@ -29,30 +27,27 @@ export class RefreshTokensRepository {
       expiresIn: expiration,
     })
 
-    return from(this.em.persistAndFlush(token)).pipe(
-      map(() => {
-        console.log('create refresh token :', token)
-        return token
-      }),
-    )
+    await this.em.persistAndFlush(token)
+
+    return token
   }
 
   /**
    * 通过ID来进行查找对应的refreshToken，
    * @param tokenId - 我们要进行查找的RefreshToken的id
-   * @returns Observable<RefreshToken>
+   * @returns Promise<RefreshToken>
    */
-  findTokenById(tokenId: number): Observable<RefreshToken> {
-    return from(
-      this.refreshTokenRepository.findOneOrFail({
-        id: tokenId,
-        isRevoked: false,
-      }),
-    )
+  async findTokenById(tokenId: number): Promise<RefreshToken> {
+    const token = await this.refreshTokenRepository.findOneOrFail({
+      id: tokenId,
+      isRevoked: false,
+    })
+    return token
   }
 
-  deleteTokenForUser(user: User): Observable<boolean> {
-    return from(this.refreshTokenRepository.nativeUpdate({ user }, { isRevoked: true })).pipe(map(() => true))
+  async deleteTokenForUser(user: User): Promise<boolean> {
+    await this.refreshTokenRepository.nativeUpdate({ user }, { isRevoked: true })
+    return true
   }
 
   /**
@@ -61,9 +56,8 @@ export class RefreshTokensRepository {
    * @param tokenId - 所需要进行删除的refreshToken的tokenId，.
    * @returns 删除结果，如果删除成功，则返回true否则，返回为false.
    */
-  deleteToken(user: User, tokenId: number): Observable<boolean> {
-    return from(this.refreshTokenRepository.nativeUpdate({ user, id: tokenId }, { isRevoked: true })).pipe(
-      map(() => true),
-    )
+  async deleteToken(user: User, tokenId: number): Promise<boolean> {
+    await this.refreshTokenRepository.nativeUpdate({ user, id: tokenId }, { isRevoked: true })
+    return true
   }
 }

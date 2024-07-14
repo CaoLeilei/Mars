@@ -1,7 +1,6 @@
 import { Injectable, ForbiddenException, UnauthorizedException } from '@nestjs/common'
 import type { FilterQuery } from '@mikro-orm/core'
 import { InjectRepository } from '@mikro-orm/nestjs'
-import { from, Observable, switchMap, map, throwError, zip } from 'rxjs'
 import { omit } from 'helper-fns'
 import { BaseRepository } from '@common/database'
 import { HelperService } from '@common/helpers'
@@ -26,35 +25,25 @@ export class AuthService {
    * @param password 前的用户密码
    * @returns 如果用户登录成功，则返回当前用户的基本信息
    */
-  validateUser(username: string, password: string): Observable<any> {
-    return from(this.userRepository.findOne({ username })).pipe(
-      switchMap((user) => {
-        if (!user) {
-          return throwError(() => {
-            return new ForbiddenException(
-              translate(itemDoesNotExistKey, {
-                args: { item: 'Account' },
-              }),
-            )
-          })
-        }
-        if (!user.isActive) {
-          return throwError(() => {
-            return new ForbiddenException('用户未激活~')
-          })
-        }
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.userRepository.findOne({ username })
+    if (!user) {
+      throw new ForbiddenException(
+        translate(itemDoesNotExistKey, {
+          args: { item: 'Account' },
+        }),
+      )
+    }
+    if (!user.isActive) {
+      throw new ForbiddenException('用户未激活~')
+    }
 
-        return HelperService.verifyHash(user.password, password).pipe(
-          map((isValid) => {
-            if (isValid) return omit(user, ['password'])
-
-            return throwError(() => {
-              return new ForbiddenException('用户的账号密码不正确~')
-            })
-          }),
-        )
-      }),
-    )
+    const isValid = await HelperService.verifyHash(user.password, password)
+    if (isValid) {
+      return omit(user, ['password'])
+    } else {
+      throw new ForbiddenException('用户的账号密码不正确~')
+    }
   }
 
   async findUser(condition: FilterQuery<User>): Promise<User> {
@@ -64,35 +53,24 @@ export class AuthService {
     return user
   }
 
-  login(loginDot: UserLoginDto): Observable<AuthenticationResponse> {
-    return this.validateUser(loginDot.username, loginDot.password).pipe(
-      switchMap((user) => {
-        if (!user) {
-          return throwError(() => {})
-        }
-        let jwtRefreshTokenExp: number | undefined = this.configService.get('jwt.refreshExpiry', { infer: true })
-        console.log('jwtRefreshTokenExp:', jwtRefreshTokenExp)
-        if (jwtRefreshTokenExp === undefined) {
-          jwtRefreshTokenExp = 60
-        }
-        return zip(
-          this.userRepository.nativeUpdate({ id: user.id }, { lastLogin: new Date() }),
-          this.tokenService.generateAccessToken(user),
-          this.tokenService.generateRefreshToken(user, jwtRefreshTokenExp),
-        ).pipe(
-          map(([_, accessToken, refreshToken]) => {
-            return {
-              user,
-              accessToken,
-              refreshToken,
-            }
-          }),
-        )
-      }),
-    )
+  async login(loginDot: UserLoginDto): Promise<AuthenticationResponse> {
+    const user = await this.validateUser(loginDot.username, loginDot.password)
+    let jwtRefreshTokenExp: number | undefined = this.configService.get('jwt.refreshExpiry', { infer: true })
+    if (jwtRefreshTokenExp === undefined) {
+      jwtRefreshTokenExp = 60
+    }
+    this.userRepository.nativeUpdate({ id: user.id }, { lastLogin: new Date() })
+    const accessToken = await this.tokenService.generateAccessToken(user)
+    const refreshToken = await this.tokenService.generateRefreshToken(user, jwtRefreshTokenExp)
+    return {
+      user,
+      accessToken,
+      refreshToken,
+    }
   }
 
-  register(user: User): Observable<User> {
-    // return from(this.userRepository.persistAndFlush(user)).pipe(map(() => user))
-  }
+  // async register(user: User): Promise<User> {
+
+  //   // return from(this.userRepository.persistAndFlush(user)).pipe(map(() => user))
+  // }
 }

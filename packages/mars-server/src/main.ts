@@ -18,22 +18,22 @@ async function bootstrap() {
 
   const configService = app.get<ConfigService>(ConfigService)
 
-  const tol = configService.get('TOOLJET_HOST')
+  app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }))
   const transRes = translate('exception.unauthorized', {
     // args: { error: "expired" },
   })
 
   console.log('transRes:', transRes)
 
-  app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }))
-
   // 应用全局的错误日志
-  app.useGlobalFilters(new HttpExceptionFilter())
+  // app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
   app.useGlobalInterceptors(new TransformInterceptor())
 
-  console.log('hello world')
-  await app.listen(3000)
+  // 读取配置中的端口号，然后进行启动监听
+  const port = configService.get('APP_PORT')
+  console.log('port:', port)
+  await app.listen(port)
 }
 
 bootstrap()

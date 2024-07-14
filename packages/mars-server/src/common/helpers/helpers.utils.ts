@@ -1,6 +1,5 @@
 import type { Options as ArgonOptions } from 'argon2'
 import { argon2id, hash, verify } from 'argon2'
-import { Observable, from } from 'rxjs'
 import dayjs from 'dayjs'
 
 // import { format, zonedTimeToUtc } from "date-fns";
@@ -52,7 +51,7 @@ export const HelperService = {
   },
 
   /* 验证加密后的数据是否正确 */
-  verifyHash(beforStr: string, afterStr: string): Observable<boolean> {
-    return from(verify(beforStr, afterStr, argon2Options))
+  async verifyHash(beforStr: string, afterStr: string): Promise<boolean> {
+    return await verify(beforStr, afterStr, argon2Options)
   },
 }

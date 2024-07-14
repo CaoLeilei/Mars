@@ -1,8 +1,6 @@
 import type { Dictionary, EntityData, EntityManager, FilterQuery, FindOptions, Loaded } from '@mikro-orm/core'
 import { EntityRepository } from '@mikro-orm/better-sqlite'
 import { BadRequestException, NotFoundException } from '@nestjs/common'
-import type { Observable } from 'rxjs'
-import { from, map, of, switchMap, throwError } from 'rxjs'
 import { formatSearch } from 'helper-fns'
 
 import type {
@@ -24,10 +22,11 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   /**
    * The exists function checks if there are any records that match the given filter query.
    * @param where - The `where` parameter is a filter query that specifies the conditions for the existence check.
-   * @returns The method is returning an Observable of type boolean.
+   * @returns The method is returning an Promise of type boolean.
    */
-  exists(where: FilterQuery<T>): Observable<boolean> {
-    return from(this.qb().where(where).getCount()).pipe(map((count) => count > 0))
+  async exists(where: FilterQuery<T>): Promise<boolean> {
+    const count = await this.qb().where(where).getCount()
+    return count > 0
   }
 
   /**
@@ -54,13 +53,13 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   /**
    * Soft removes the entity and flushes the changes to the database.
    * @param entity - The entity to be removed
-   * @returns observable of the removed entity
+   * @returns Promise of the removed entity
    */
-  softRemoveAndFlush(entity: T): Observable<T> {
+  async softRemoveAndFlush(entity: T): Promise<T> {
     entity.deletedAt = new Date()
     entity.isDeleted = true
-
-    return from(this.em.persistAndFlush(entity)).pipe(map(() => entity))
+    await this.em.persistAndFlush(entity)
+    return entity
   }
 
   /**
@@ -69,11 +68,13 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
    * @param options - The options to use for the update
    * @returns An object containing the total number of entities and the entities
    */
-  findAndPaginate<Populate extends string = never>(
+  async findAndPaginate<Populate extends string = never>(
     where: FilterQuery<T>,
     options?: FindOptions<T, Populate>,
-  ): Observable<{ total: number; results: Loaded<T, Populate>[] }> {
-    return from(this.findAndCount(where, options)).pipe(map(([results, total]) => ({ total, results })))
+  ): Promise<{ total: number; results: Loaded<T, Populate>[] }> {
+    const [results, total] = await this.findAndCount(where, options)
+    return { total, results }
+    // return from(this.findAndCount(where, options)).pipe(map(([results, total]) => ({ total, results })))
   }
 
   /**
@@ -93,25 +94,17 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
    * @param update - Partial<EntityDTO<Loaded<T>>>
    * @returns The entity that was updated
    */
-  findAndUpdate(where: FilterQuery<T>, update: EntityData<T>): Observable<T> {
-    return from(this.findOne(where)).pipe(
-      switchMap((entity) => {
-        if (!entity) {
-          return throwError(
-            () =>
-              new NotFoundException(
-                translate(itemDoesNotExistKey, {
-                  args: { item: this.getEntityName() },
-                }),
-              ),
-          )
-        }
-        // TODO: 解开注释，并且完成基本的修改更新功能
-        // this.em.assign(entity, update);
-
-        return from(this.em.persistAndFlush(entity)).pipe(map(() => entity))
-      }),
-    )
+  async findAndUpdate(where: FilterQuery<T>, update: EntityData<T>): Promise<T> {
+    const entity = await this.findOne(where)
+    if (!entity) {
+      throw new NotFoundException(
+        translate(itemDoesNotExistKey, {
+          args: { item: this.getEntityName() },
+        }),
+      )
+    }
+    await this.em.persistAndFlush(entity)
+    return entity
   }
 
   /**
@@ -119,24 +112,17 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
    * @param where - This is the where clause to use for the delete.
    * @returns The entity that was deleted
    */
-  findAndDelete(where: FilterQuery<T>): Observable<T> {
-    return from(this.findOne(where)).pipe(
-      switchMap((entity) => {
-        if (!entity) {
-          return throwError(
-            () =>
-              new NotFoundException(
-                translate(itemDoesNotExistKey, {
-                  args: { item: this.getEntityName() },
-                }),
-              ),
-          )
-        }
-        this.em.remove(entity)
-
-        return of(entity)
-      }),
-    )
+  async findAndDelete(where: FilterQuery<T>): Promise<T> {
+    const entity = await this.findOne(where)
+    if (!entity) {
+      throw new NotFoundException(
+        translate(itemDoesNotExistKey, {
+          args: { item: this.getEntityName() },
+        }),
+      )
+    }
+    await this.em.remove(entity)
+    return entity
   }
 
   /**
@@ -144,23 +130,16 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
    * @param where - This is the where clause to use for the soft delete.
    * @returns The entity that was soft deleted.
    */
-  findAndSoftDelete(where: FilterQuery<T>): Observable<T> {
-    return from(this.findOne(where)).pipe(
-      switchMap((entity) => {
-        if (!entity) {
-          return throwError(
-            () =>
-              new NotFoundException(
-                translate(itemDoesNotExistKey, {
-                  args: { item: this.getEntityName() },
-                }),
-              ),
-          )
-        }
-
-        return this.softRemoveAndFlush(entity)
-      }),
-    )
+  async findAndSoftDelete(where: FilterQuery<T>): Promise<T> {
+    const entity = await this.findOne(where)
+    if (!entity) {
+      throw new NotFoundException(
+        translate(itemDoesNotExistKey, {
+          args: { item: this.getEntityName() },
+        }),
+      )
+    }
+    return await this.softRemoveAndFlush(entity)
   }
 
   /**
@@ -239,12 +218,14 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
 
   /**
    * This is a TypeScript function that performs offset pagination on a query builder and returns an
-   * observable of the paginated results.
+   * Promise of the paginated results.
    * @param dto - An object containing two properties:
-   * @returns An Observable of OffsetPagination, which contains the results of a query with pagination
+   * @returns An Promise of OffsetPagination, which contains the results of a query with pagination
    * options applied.
    */
-  qbOffsetPagination<T extends Dictionary>(dto: QBOffsetPaginationOptions<T>): Observable<OffsetPaginationResponse<T>> {
+  async qbOffsetPagination<T extends Dictionary>(
+    dto: QBOffsetPaginationOptions<T>,
+  ): Promise<OffsetPaginationResponse<T>> {
     const { qb, pageOptionsDto } = dto
 
     const {
@@ -295,21 +276,15 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
       .select(selectedFields)
       .offset(offset)
 
-    const pagination$ = from(qb.getResultAndCount())
-
-    return pagination$.pipe(
-      map(([results, itemCount]) => {
-        const pageMetaDto = new OffsetMeta({ pageOptionsDto, itemCount })
-
-        return new OffsetPaginationResponse(results, pageMetaDto)
-      }),
-    )
+    const [results, itemCount] = await qb.getResultAndCount()
+    const pageMetaDto = new OffsetMeta({ pageOptionsDto, itemCount })
+    return new OffsetPaginationResponse(results, pageMetaDto)
   }
 
   /**
    * Takes a query builder and returns the entities paginated using cursor pagination.
    * @param dto - An object containing two properties
-   * @returns An Observable of CursorPaginationResponse, which contains the results of a query with
+   * @returns An Promise of CursorPaginationResponse, which contains the results of a query with
    */
   async qbCursorPagination<T extends Dictionary>(
     dto: QBCursorPaginationOptions<T>,

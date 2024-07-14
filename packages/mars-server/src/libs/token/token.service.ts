@@ -34,7 +34,7 @@ export class TokenService {
    * @param user 当期那用户相关的信息
    * @returns
    */
-  generateAccessToken(user: Omit<User, 'password'>): Observable<string> {
+  async generateAccessToken(user: Omit<User, 'password'>): Promise<string> {
     const options: JwtSignOptions = {
       ...this.BASE_OPTIONS,
       subject: String(user?.id),
@@ -43,7 +43,7 @@ export class TokenService {
     // 输出当前用户的基本信息
     loggerService.log(user)
 
-    return from(this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options))
+    return await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
   }
 
   /**
@@ -51,19 +51,16 @@ export class TokenService {
    * @param user
    * @param expiresIn
    */
-  generateRefreshToken(user: User, expiresIn: number): Observable<string> {
-    return this.refreshTokenRepository.createRefreshToken(user, expiresIn).pipe(
-      switchMap((token) => {
-        const options: JwtSignOptions = {
-          ...this.BASE_OPTIONS,
-          expiresIn,
-          subject: String(user.id),
-          jwtid: String(token.id),
-        }
+  async generateRefreshToken(user: User, expiresIn: number): Promise<string> {
+    const token = await this.refreshTokenRepository.createRefreshToken(user, expiresIn)
 
-        return from(this.jwt.signAsync({}, options))
-      }),
-    )
+    const options: JwtSignOptions = {
+      ...this.BASE_OPTIONS,
+      expiresIn,
+      subject: String(user.id),
+      jwtid: String(token.id),
+    }
+    return await this.jwt.signAsync({}, options)
   }
 
   // resolveRefreshToken(encoded: string):  Observable<{ user: User; token: RefreshToken }> {
@@ -75,22 +72,24 @@ export class TokenService {
    * @param token - The refresh token to decode.
    * @returns The payload of the token.
    */
-  decodeRefreshToken(token: string): Observable<JwtPayload> {
-    return from(this.jwt.verifyAsync(token)).pipe(
-      map((payload: JwtPayload) => payload),
-      catchError((error_) => {
-        throw error_ instanceof TokenExpiredError
-          ? new UnauthorizedException(
-              translate('exception.refreshToken', {
-                args: { error: 'expired' },
-              }),
-            )
-          : new UnauthorizedException(
-              translate('exception.refreshToken', {
-                args: { error: 'malformed' },
-              }),
-            )
-      }),
-    )
+  async decodeRefreshToken(token: string): Promise<JwtPayload> {
+    try {
+      const payload = await this.jwt.verifyAsync(token)
+      return payload
+    } catch (err) {
+      if (err instanceof TokenExpiredError) {
+        throw new UnauthorizedException(
+          translate('exception.refreshToken', {
+            args: { error: 'expired' },
+          }),
+        )
+      } else {
+        throw new UnauthorizedException(
+          translate('exception.refreshToken', {
+            args: { error: 'malformed' },
+          }),
+        )
+      }
+    }
   }
 }

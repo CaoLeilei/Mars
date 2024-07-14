@@ -26,7 +26,7 @@ export interface PaginatedResponse<T> {
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, SuccessResponse<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log(context)
+    // console.log(context)
     return next.handle().pipe(
       catchError((error: Error) => {
         const message: string = error?.message || '服务器有误~'
