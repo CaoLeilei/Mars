@@ -13,9 +13,9 @@ export class UsersService {
 
   public async create(dto: CreateUserDto) {
     const { ...rest } = dto
-    const user = new User({ ...dto })
-    // const user = this.userRepository.create({ ...dto })
-    console.log(user)
+    const user = new User({ ...dto, idx: undefined })
+    const dbUser = await this.userRepository.create(user)
+    console.log(dbUser)
     return 'createUser'
   }
 }
