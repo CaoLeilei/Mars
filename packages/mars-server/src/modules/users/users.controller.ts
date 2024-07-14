@@ -16,7 +16,7 @@ export class UsersController {
 
   // 用户自己注册账号
   @Post('register')
-  publicRegistration(@Body() dto: UserRegistrationDto, @UploadedFile(fileValidatorPipe({})) imgage: File) {
+  publicRegistration(@Body() dto: UserRegistrationDto) {
     return ''
   }
 

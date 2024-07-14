@@ -78,6 +78,17 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "comment": "项目的名字~",
+          "mappedType": "text"
+        },
+        "desc": {
+          "name": "desc",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "comment": "当前项目的描述~",
           "mappedType": "text"
         }
       },
@@ -212,7 +223,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "nickname": {
@@ -221,7 +232,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "email": {
@@ -239,7 +250,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "avatar": {
@@ -248,7 +259,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "two_factor_secret": {

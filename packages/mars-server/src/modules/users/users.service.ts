@@ -9,6 +9,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
+    private readonly em: EntityManager,
   ) {}
 
   public async create(dto: CreateUserDto) {
