@@ -10,13 +10,13 @@ export class UsersController {
 
   @Post('create')
   async createUser(@Body() dto: CreateUserDto) {
-    const user = await this.userService.createUser(dto)
+    const user = await this.userService.create(dto)
     return 'user create'
   }
 
   // 用户自己注册账号
   @Post('register')
-  publicRegistration(@Body() dto: UserRegistrationDto, @UploadedFile(fileValidatorPipe({})) imgage: File) {
+  publicRegistration(@Body() dto: UserRegistrationDto) {
     return ''
   }
 

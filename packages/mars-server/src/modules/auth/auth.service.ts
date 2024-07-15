@@ -68,9 +68,4 @@ export class AuthService {
       refreshToken,
     }
   }
-
-  // async register(user: User): Promise<User> {
-
-  //   // return from(this.userRepository.persistAndFlush(user)).pipe(map(() => user))
-  // }
 }

@@ -37,22 +37,22 @@ export class User extends BaseEntity {
 
   // 用户的真实姓名
   @Property()
-  truename!: string
+  truename?: string = ''
 
   // 用户的昵称
   @Property()
-  nickname!: string
+  nickname?: string = ''
 
   // 用户的点子邮箱
   @Property({ index: true, unique: true })
   email!: string
 
   @Property({ columnType: 'text' })
-  bio!: string
+  bio?: string = ''
 
   // 用户的头像相关的信息
   @Property({ columnType: 'text' })
-  avatar!: string
+  avatar?: string = ''
 
   @Property()
   twoFactorSecret?: string

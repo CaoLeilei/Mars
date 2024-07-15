@@ -9,12 +9,13 @@ import { AuthService } from '../auth.service'
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly authService: AuthService,
-    config: ConfigService<any, true>,
+    configService: ConfigService<any, true>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get('jwt.secret', { infer: true }),
+      secretOrKey: configService.get('jwt.secret', { infer: true }),
       ignoreExpiration: false,
+      passReqToCallback: true,
     })
   }
 
@@ -25,9 +26,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @returns The user object
    */
 
-  async validate(payload: JwtPayload) {
+  async validate(req: Request, payload: JwtPayload) {
     const { sub: id } = payload
-
     // Accept the JWT and attempt to validate it using the user service
     return await this.authService.findUser(id)
   }
