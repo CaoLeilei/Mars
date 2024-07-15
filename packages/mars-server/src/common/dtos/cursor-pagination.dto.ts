@@ -15,11 +15,14 @@ export class CursorPaginationDto extends PaginationDto {
   /**
    * The cursor of the page you are requesting
    */
-  // @IsBase64({
-  //   message: validationI18nMessage("validation.isDataType", {
-  //     type: "base64",
-  //   }),
-  // })
+  @IsBase64(
+    {},
+    {
+      message: validationI18nMessage('validation.isDataType', {
+        type: 'base64',
+      }),
+    },
+  )
   @IsStringField({ required: false })
   after?: string
 

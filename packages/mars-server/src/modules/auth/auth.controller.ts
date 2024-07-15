@@ -1,20 +1,13 @@
-import { Controller, Post, Get, Injectable } from '@nestjs/common'
+import { Controller, Post, Body, Get, Injectable } from '@nestjs/common'
 import { UserLoginDto } from './dtos/user-login.dto'
 import { AuthService } from './auth.service'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {
-    console.log('AuthController')
-  }
-
-  @Get('test')
-  public async Test(): Promise<any> {
-    return 'hello world'
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  public async Login(userLoginDto: UserLoginDto): Promise<any> {
+  public async Login(@Body() userLoginDto: UserLoginDto): Promise<any> {
     console.log(userLoginDto)
     return this.authService.login(userLoginDto)
   }

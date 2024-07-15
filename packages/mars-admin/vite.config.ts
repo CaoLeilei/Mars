@@ -40,4 +40,17 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see unocss.config.ts for config
   ],
+  server: {
+    open: false,
+    port: 5171,
+    proxy: {
+      "/WechatWebDev": {
+        target: "https://dldir1.qq.com",
+        changeOrigin: true, //是否跨域
+        // rewrite: (path) => path.replace(/^\/mis/, ""), //因为后端接口有mis前缀，所以不需要替换
+        // ws: true,                       //是否代理 websockets
+        // secure: true, //是否https接口
+      },
+    },
+  },
 })

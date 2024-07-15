@@ -14,7 +14,8 @@ import { ConfigService } from '@nestjs/config'
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: BaseRepository<User>,
+    @InjectRepository(User)
+    private readonly userRepository: BaseRepository<User>,
     private readonly tokenService: TokenService,
     private readonly configService: ConfigService,
   ) {}
@@ -34,6 +35,7 @@ export class AuthService {
         }),
       )
     }
+    console.log('user.password:', JSON.stringify(user))
     if (!user.isActive) {
       throw new ForbiddenException('用户未激活~')
     }
@@ -46,10 +48,16 @@ export class AuthService {
     }
   }
 
+  /**
+   * 根据条件进行查询当前用户的相关信息的内容
+   * @param condition
+   * @returns
+   */
   async findUser(condition: FilterQuery<User>): Promise<User> {
     const user = await this.userRepository.findOne(condition)
 
     if (!user) throw new UnauthorizedException()
+
     return user
   }
 

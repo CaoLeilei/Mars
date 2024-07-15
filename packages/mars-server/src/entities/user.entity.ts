@@ -32,8 +32,13 @@ export class User extends BaseEntity {
   username!: string
 
   // 用户的登录密码
-  @Property({ hidden: true, columnType: 'text', lazy: true })
+  // { hidden: true, columnType: 'text', lazy: true }
+  @Property({ hidden: true, columnType: 'text' })
   password!: string
+
+  // 用户的点子邮箱
+  @Property({ index: true, unique: true })
+  email!: string
 
   // 用户的真实姓名
   @Property()
@@ -42,10 +47,6 @@ export class User extends BaseEntity {
   // 用户的昵称
   @Property()
   nickname?: string = ''
-
-  // 用户的点子邮箱
-  @Property({ index: true, unique: true })
-  email!: string
 
   @Property({ columnType: 'text' })
   bio?: string = ''

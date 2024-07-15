@@ -1,9 +1,13 @@
 <template>
   <el-page-header class="projects">
+    <div>
+      <FileDownload />
+    </div>
   </el-page-header>
 </template>
 
 <script setup lang="ts">
+import FileDownload from './FileDownload.vue';
 
 </script>
 

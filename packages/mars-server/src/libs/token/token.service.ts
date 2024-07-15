@@ -37,13 +37,15 @@ export class TokenService {
   async generateAccessToken(user: Omit<User, 'password'>): Promise<string> {
     const options: JwtSignOptions = {
       ...this.BASE_OPTIONS,
-      subject: String(user?.id),
+      subject: String(user.id),
     }
 
     // 输出当前用户的基本信息
     loggerService.log(user)
-
-    return await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
+    loggerService.log(pick(user, ['roles', 'isTwoFactorEnabled']))
+    loggerService.log(options)
+    const token: string = await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
+    return token
   }
 
   /**
