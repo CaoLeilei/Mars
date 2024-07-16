@@ -5,7 +5,7 @@ import type {
   // database,
   // facebookOauth,
   // googleOauth,
-  // jwt,
+  jwt,
   // mail,
   // rabbitmq,
   // redis,
@@ -21,7 +21,7 @@ export interface Configs {
   // database: ConfigType<typeof database>
   // facebookOauth: ConfigType<typeof facebookOauth>
   // googleOauth: ConfigType<typeof googleOauth>
-  // jwt: ConfigType<typeof jwt>
+  jwt: ConfigType<typeof jwt>
   // redis: ConfigType<typeof redis>
   // mail: ConfigType<typeof mail>
   // rabbitmq: ConfigType<typeof rabbitmq>

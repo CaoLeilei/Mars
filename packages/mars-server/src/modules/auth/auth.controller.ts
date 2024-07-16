@@ -8,13 +8,11 @@ export class AuthController {
 
   @Post('login')
   public async Login(@Body() userLoginDto: UserLoginDto): Promise<any> {
-    console.log(userLoginDto)
     return this.authService.login(userLoginDto)
   }
 
   @Post('register')
   public async Register(userLoginDto: UserLoginDto): Promise<any> {
-    console.log(userLoginDto)
     return 'hello world' // Observable.fron
   }
 }

@@ -6,7 +6,6 @@ import type { JwtSignOptions } from '@nestjs/jwt'
 import { JwtService } from '@nestjs/jwt'
 import { TokenExpiredError } from 'jsonwebtoken'
 
-import { Observable, from, map, switchMap, catchError } from 'rxjs'
 import { pick } from 'helper-fns'
 
 import { User, RefreshToken } from '@entities'
@@ -41,11 +40,16 @@ export class TokenService {
     }
 
     // 输出当前用户的基本信息
-    loggerService.log(user)
-    loggerService.log(pick(user, ['roles', 'isTwoFactorEnabled']))
     loggerService.log(options)
-    const token: string = await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
-    return token
+
+    const temp = { ...pick(user, ['roles', 'isTwoFactorEnabled']) }
+    try {
+      const token: string = await this.jwt.signAsync(temp, options)
+      return token
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
   }
 
   /**

@@ -5,9 +5,11 @@ import {
   app,
   database,
   sqlite,
+  jwt,
   appConfigValidationSchema,
   databaseConfigValidationSchema,
   sqliteConfigValidationSchema,
+  jwtConfigValidationSchema,
 } from './configs/index'
 
 @Global()
@@ -16,13 +18,14 @@ import {
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`${process.cwd()}/env/.env.${process.env.NODE_ENV}`],
-      load: [app, database, sqlite],
+      load: [app, database, sqlite, jwt],
       cache: true,
       expandVariables: true,
       validationSchema: Joi.object({
         ...appConfigValidationSchema,
         ...databaseConfigValidationSchema,
         ...sqliteConfigValidationSchema,
+        ...jwtConfigValidationSchema,
       }),
     }),
   ],
