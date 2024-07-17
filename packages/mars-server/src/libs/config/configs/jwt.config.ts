@@ -18,12 +18,20 @@ export const jwtConfigValidationSchema = {
   MAGIC_LINK_EXPIRY: Joi.string().regex(JWT_EXPIRY_REGEX).required(),
 }
 
-const { JWT_ACCESS_EXPIRY = '', JWT_REFRESH_EXPIRY = '', MAGIC_LINK_EXPIRY = '' } = process.env || {}
-
-export const jwt = registerAs('jwt', () => ({
-  secret: process.env.JWT_SECRET,
-  algorithm: process.env?.JWT_ALGORITHM ?? 'HS256',
-  accessExpiry: /^\d+$/.test(JWT_ACCESS_EXPIRY) ? +JWT_ACCESS_EXPIRY : process.env.JWT_ACCESS_EXPIRY,
-  refreshExpiry: /^\d+$/.test(JWT_REFRESH_EXPIRY) ? +JWT_REFRESH_EXPIRY : JWT_REFRESH_EXPIRY,
-  magicLinkExpiry: /^\d+$/.test(MAGIC_LINK_EXPIRY) ? +MAGIC_LINK_EXPIRY : MAGIC_LINK_EXPIRY,
-}))
+export const jwt = registerAs('jwt', () => {
+  const { JWT_SECRET, JWT_ACCESS_EXPIRY = '', JWT_REFRESH_EXPIRY = '', MAGIC_LINK_EXPIRY = '' } = process.env || {}
+  console.log(
+    'JWT_ACCESS_EXPIRY, JWT_REFRESH_EXPIRY, MAGIC_LINK_EXPIRY:',
+    JWT_ACCESS_EXPIRY,
+    JWT_REFRESH_EXPIRY,
+    MAGIC_LINK_EXPIRY,
+    1,
+  )
+  return {
+    secret: JWT_SECRET,
+    algorithm: process.env?.JWT_ALGORITHM ?? 'HS256',
+    accessExpiry: /^\d+$/.test(JWT_ACCESS_EXPIRY || '') ? +JWT_ACCESS_EXPIRY : JWT_ACCESS_EXPIRY,
+    refreshExpiry: /^\d+$/.test(JWT_REFRESH_EXPIRY || '') ? +JWT_REFRESH_EXPIRY : JWT_REFRESH_EXPIRY,
+    magicLinkExpiry: /^\d+$/.test(MAGIC_LINK_EXPIRY || '') ? +MAGIC_LINK_EXPIRY : MAGIC_LINK_EXPIRY,
+  }
+})

@@ -11,7 +11,7 @@ import { JwtStrategy } from './strategies'
 @Module({
   imports: [PassportModule, UsersModule],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, JwtStrategy, RefreshTokensRepository, JwtService],
+  providers: [AuthService, TokenService, RefreshTokensRepository, JwtStrategy],
   exports: [AuthService, JwtStrategy, TokenService, RefreshTokensRepository],
 })
 export class AuthModule {}

@@ -35,14 +35,13 @@ export class AuthService {
         }),
       )
     }
-    console.log('user.password:', JSON.stringify(user))
     if (!user.isActive) {
       throw new ForbiddenException('用户未激活~')
     }
 
     const isValid = await HelperService.verifyHash(user.password, password)
     if (isValid) {
-      return omit(user, ['password'])
+      return omit(user, ['password', 'lastLogin', 'updatedAt', 'createdAt', 'deletedAt', 'isDeleted'])
     } else {
       throw new ForbiddenException('用户的账号密码不正确~')
     }
