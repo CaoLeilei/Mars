@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@mikro-orm/nestjs'
 import { EntityManager } from '@mikro-orm/better-sqlite'
 import { BaseRepository } from '@common/database'
-import { itemDoesNotExistKey, translate } from '@libs/i18n'
+// import { itemDoesNotExistKey, translate } from '@libs/i18n'
+import { itemDoesNotExistKey, translate } from '@libs/i18n/translate'
 import { User } from '@entities'
 import { CreateUserDto } from './dtos/create-user.dto'
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: BaseRepository<User>,
+    @InjectRepository(User) private userRepository: BaseRepository<User>,
     private readonly em: EntityManager,
   ) {}
 

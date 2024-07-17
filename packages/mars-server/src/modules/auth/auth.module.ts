@@ -1,5 +1,4 @@
 import { Module, Post } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { UsersModule } from '@modules/users/users.module'
 import { TokenService } from '@libs/token/token.service'

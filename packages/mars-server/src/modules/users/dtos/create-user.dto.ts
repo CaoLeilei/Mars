@@ -1,14 +1,5 @@
-import { Type } from 'class-transformer'
-import { IsNotEmpty, IsUrl, ValidateNested } from 'class-validator'
 import { Roles } from '@common/@types'
-import {
-  IsEmailField,
-  IsEnumField,
-  IsPasswordField,
-  IsStringField,
-  IsUnique,
-  IsUsernameField,
-} from '@common/decorators'
+import { IsEmailField, IsEnumField, IsPasswordField, IsUnique, IsUsernameField } from '@common/decorators'
 import { User } from '@entities'
 import { validationI18nMessage } from '@libs/i18n'
 
