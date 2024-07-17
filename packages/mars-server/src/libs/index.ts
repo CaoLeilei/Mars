@@ -1,5 +1,6 @@
 export * from './config'
 export * from './cache'
+export * from './crud'
 export * from './orm.module'
 export * from './jwt.module'
 export * from './serve-static.module'

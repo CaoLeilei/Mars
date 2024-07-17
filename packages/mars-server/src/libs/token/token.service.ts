@@ -42,9 +42,8 @@ export class TokenService {
     // 输出当前用户的基本信息
     loggerService.log(options)
 
-    const temp = { ...pick(user, ['roles', 'isTwoFactorEnabled']) }
     try {
-      const token: string = await this.jwt.signAsync(temp, options)
+      const token: string = await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
       return token
     } catch (err) {
       console.log(err)
@@ -68,10 +67,6 @@ export class TokenService {
     }
     return await this.jwt.signAsync({}, options)
   }
-
-  // resolveRefreshToken(encoded: string):  Observable<{ user: User; token: RefreshToken }> {
-  //   // return from({user: new User(), })
-  // }
 
   /**
    * It decodes the refresh token and throws an error if the token is expired or malformed
@@ -97,5 +92,88 @@ export class TokenService {
         )
       }
     }
+  }
+
+  /**
+   * It takes a refresh token payload, extracts the token ID from it, and then uses that token ID to
+   * find the corresponding refresh token in the database
+   * @param payload - IJwtPayload
+   * @returns Observable<RefreshToken | null>
+   */
+  async getStoredTokenFromRefreshTokenPayload(payload: JwtPayload): Promise<RefreshToken | null> {
+    const tokenId = payload.jti
+
+    if (!tokenId) {
+      throw new UnauthorizedException(
+        translate('exception.refreshToken', {
+          args: { error: 'malformed' },
+        }),
+      )
+    }
+
+    return await this.refreshTokenRepository.findTokenById(tokenId)
+  }
+
+  /**
+   * It takes a refresh token payload, extracts the user ID from it, and then returns an observable of
+   * the user with that ID
+   * @param payload - IJwtPayload
+   * @returns A user object
+   */
+  async getUserFromRefreshTokenPayload(payload: JwtPayload): Promise<User> {
+    const subId = payload.sub
+
+    if (!subId) {
+      throw new UnauthorizedException(
+        translate('exception.refreshToken', {
+          args: { error: 'malformed' },
+        }),
+      )
+    }
+
+    return await this.userRepository.findOneOrFail({
+      id: subId,
+    })
+  }
+
+  /**
+   * It takes an encoded refresh token, decodes it, finds the user and token in the database, and
+   * returns them
+   * @param encoded - string - The encoded refresh token
+   * @returns An object with a user and a token.
+   */
+  async resolveRefreshToken(encoded: string): Promise<{ user: User; token: RefreshToken }> {
+    const payload = await this.decodeRefreshToken(encoded)
+    const token = await this.getStoredTokenFromRefreshTokenPayload(payload)
+    if (!token) {
+      throw new UnauthorizedException(
+        translate('exception.refreshToken', {
+          args: { error: 'not found' },
+        }),
+      )
+    }
+    if (token.isRevoked) {
+      throw new UnauthorizedException(
+        translate('exception.refreshToken', {
+          args: { error: 'revoked' },
+        }),
+      )
+    }
+
+    const user = await this.getUserFromRefreshTokenPayload(payload)
+    if (!user) {
+      throw new UnauthorizedException(
+        translate('exception.refreshToken', {
+          args: { error: 'malformed' },
+        }),
+      )
+    }
+    return { user, token }
+  }
+
+  async createAccessTokenFromRefreshToken(refresh: string): Promise<{ token: string; user: User }> {
+    const { user } = await this.resolveRefreshToken(refresh)
+    const token = await this.generateAccessToken(user)
+    return { token, user }
   }
 }

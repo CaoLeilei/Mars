@@ -1,11 +1,16 @@
 import { Controller, Post, Body, Get } from '@nestjs/common'
-import { Auth } from '@common/decorators/auth.decorator'
+import { Auth, GenericController, LoggedInUser } from '@common/decorators'
+import { TokenService } from '@libs/token/token.service'
 import { UserLoginDto } from './dtos/user-login.dto'
+import { RefreshTokenDto } from './dtos/refresh-token.dto'
 import { AuthService } from './auth.service'
 
-@Controller('auth')
+@GenericController('auth', false)
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService,
+  ) {}
 
   @Auth()
   @Get('hello')
@@ -22,5 +27,14 @@ export class AuthController {
   public async Register(userLoginDto: UserLoginDto): Promise<any> {
     console.log(userLoginDto)
     return 'hello world' // Observable.fron
+  }
+
+  /**
+   * 重新生成
+   */
+  @Post('token/refresh')
+  async refresh(@Body() body: RefreshTokenDto): Promise<any> {
+    const token = await this.tokenService.createAccessTokenFromRefreshToken(body.refreshToken)
+    return { token }
   }
 }
