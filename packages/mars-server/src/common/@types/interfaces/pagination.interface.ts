@@ -1,5 +1,4 @@
 import type { Dictionary } from '@mikro-orm/core'
-// import type { QueryBuilder } from "@mikro-orm/postgresql";
 import type { QueryBuilder } from '@mikro-orm/better-sqlite'
 import type { CursorPaginationDto, OffsetPaginationDto } from '@common/dtos'
 import type { CursorPaginationResponse, OffsetPaginationResponse } from '../classes'

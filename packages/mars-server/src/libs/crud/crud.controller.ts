@@ -5,7 +5,6 @@ import { AppUtils } from '@common/helpers'
 import { User } from '@entities'
 import type { ArgumentMetadata, Type } from '@nestjs/common'
 import { Body, Delete, Get, Injectable, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common'
-import { Observable } from 'rxjs'
 import type { BaseService } from './crud.service'
 
 @Injectable()
