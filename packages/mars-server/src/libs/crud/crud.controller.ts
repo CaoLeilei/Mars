@@ -1,6 +1,6 @@
 import type { CreateEntityType, Crud, PaginationRequest, PaginationResponse, UpdateEntityType } from '@common/@types'
 import type { BaseEntity } from '@common/database'
-import { ApiPaginatedResponse, LoggedInUser } from '@common/decorators'
+import { LoggedInUser } from '@common/decorators'
 import { AppUtils } from '@common/helpers'
 import { User } from '@entities'
 import type { ArgumentMetadata, Type } from '@nestjs/common'
@@ -60,7 +60,6 @@ export function ControllerFactory<
       return this.service.findOne(index)
     }
 
-    @ApiPaginatedResponse(updateDto)
     @UsePipes(queryPipe)
     @Get()
     async findAll(@Query() query: Q): Promise<PaginationResponse<T>> {

@@ -5,8 +5,6 @@ import type { User } from '@entities'
 import { itemDoesNotExistKey, translate } from '@libs/i18n'
 import type { EntityData, EntityKey, FilterQuery, FromEntityType } from '@mikro-orm/better-sqlite'
 import { NotFoundException } from '@nestjs/common'
-import type { Observable } from 'rxjs'
-import { from, map, mergeMap, of, switchMap, throwError } from 'rxjs'
 
 export abstract class BaseService<
   Entity extends BaseEntity,

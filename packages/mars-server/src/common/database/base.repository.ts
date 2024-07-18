@@ -20,9 +20,9 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   private readonly encoding: BufferEncoding = 'base64'
 
   /**
-   * The exists function checks if there are any records that match the given filter query.
-   * @param where - The `where` parameter is a filter query that specifies the conditions for the existence check.
-   * @returns The method is returning an Promise of type boolean.
+   * 检查是是否存在（满足搜索条件）
+   * @param where - 搜索条件.
+   * @returns
    */
   async exists(where: FilterQuery<T>): Promise<boolean> {
     const count = await this.qb().where(where).getCount()
@@ -30,7 +30,7 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   }
 
   /**
-   * Returns the entity name.
+   * 获取实体的名称.
    * @returns The entity name as a string.
    */
   getEntityName(): string {

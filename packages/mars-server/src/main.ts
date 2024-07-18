@@ -25,14 +25,11 @@ async function bootstrap() {
   console.log('transRes:', transRes)
 
   // 应用全局的错误日志
-  // app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
   app.useGlobalInterceptors(new TransformInterceptor())
 
-  console.log('jwt.secret')
   // 读取配置中的端口号，然后进行启动监听
   const port = configService.get('APP_PORT')
-  console.log('port:', port)
   await app.listen(port)
 }
 

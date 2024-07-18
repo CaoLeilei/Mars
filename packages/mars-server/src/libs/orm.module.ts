@@ -3,7 +3,6 @@ import { Module, Global } from '@nestjs/common'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { defineConfig } from '@mikro-orm/better-sqlite'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { HelperService } from '@common/helpers'
 import { baseOptions } from '@common/database/orm.config'
 import * as Entities from '@entities'
 
