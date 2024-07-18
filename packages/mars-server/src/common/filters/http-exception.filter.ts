@@ -12,7 +12,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     console.log('🚀 ~ HttpExceptionFilter ~ statusCode:', statusCode)
 
     const message = exception.getResponse()
-    console.log('message,', message)
 
     // let message = exception.getResponse() as {
     //   key: string

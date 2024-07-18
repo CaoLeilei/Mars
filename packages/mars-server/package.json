@@ -70,8 +70,8 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@mikro-orm/cli": "^6.2.5",
-    "@mikro-orm/seeder": "^6.2.5",
+    "@mikro-orm/cli": "^6.2.9",
+    "@mikro-orm/seeder": "^6.2.9",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/devtools-integration": "^0.1.6",
     "@nestjs/schematics": "^10.0.0",

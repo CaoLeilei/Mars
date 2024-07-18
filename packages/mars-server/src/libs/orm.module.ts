@@ -6,8 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { baseOptions } from '@common/database/orm.config'
 import * as Entities from '@entities'
 
-console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
-
 @Global()
 @Module({
   imports: [

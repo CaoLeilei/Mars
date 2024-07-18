@@ -25,7 +25,6 @@ export class AuthController {
 
   @Post('register')
   public async Register(userLoginDto: UserLoginDto): Promise<any> {
-    console.log(userLoginDto)
     return 'hello world' // Observable.fron
   }
 

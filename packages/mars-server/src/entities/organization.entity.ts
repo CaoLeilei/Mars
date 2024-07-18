@@ -3,17 +3,20 @@ import { BaseEntity } from '@common/database'
 
 @Entity({ tableName: 'organizations' })
 export class Organization extends BaseEntity {
-  @Property({ name: 'name', unique: true })
+  @Property({ name: 'name', comment: '组织的名称', unique: true })
   name!: string
 
-  @Property({ name: 'slug' })
+  @Property({ name: 'desc', comment: '组织的描述内容' })
   desc?: string
+
+  @Property({ name: 'slug', unique: true })
+  slug!: string
 
   @Property({ name: 'domain' })
   domain?: string
 
   @Property({ name: 'enable_sign_up' })
-  enableSignUp: boolean = false
+  enableSignUp!: boolean
 
   // @OneToMany(() => GroupPermission, (groupPermission) => groupPermission.organization, { onDelete: 'CASCADE' })
   // @JoinProperty({ name: 'organization_id' })

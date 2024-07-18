@@ -21,8 +21,8 @@ const config: Options = defineConfig({
   dbName: join(process.cwd(), 'data/test.db'),
 })
 
-logger.log(config)
+// logger.log(config)
 
-console.log('config:', config)
+// console.log('config:', config)
 
 export default config

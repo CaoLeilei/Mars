@@ -20,13 +20,7 @@ export const jwtConfigValidationSchema = {
 
 export const jwt = registerAs('jwt', () => {
   const { JWT_SECRET, JWT_ACCESS_EXPIRY = '', JWT_REFRESH_EXPIRY = '', MAGIC_LINK_EXPIRY = '' } = process.env || {}
-  console.log(
-    'JWT_ACCESS_EXPIRY, JWT_REFRESH_EXPIRY, MAGIC_LINK_EXPIRY:',
-    JWT_ACCESS_EXPIRY,
-    JWT_REFRESH_EXPIRY,
-    MAGIC_LINK_EXPIRY,
-    1,
-  )
+
   return {
     secret: JWT_SECRET,
     algorithm: process.env?.JWT_ALGORITHM ?? 'HS256',

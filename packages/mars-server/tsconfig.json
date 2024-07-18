@@ -22,6 +22,7 @@
         "./generated"
       ],
     },
+    "moduleResolution": "NodeNext",
     "declaration": true,
     "outDir": "dist",
     "noUnusedLocals": false,
