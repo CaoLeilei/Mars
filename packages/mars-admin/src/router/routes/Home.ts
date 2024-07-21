@@ -3,7 +3,7 @@ const HomeRoute = {
   path: '/',
   redirect: '/workspace',
   // redirect: '/workspace',
-  component: () => import('~/views/Home/index.vue'),
+  component: () => import('@/views/Home/index.vue'),
   meta: {
     title: '',
   }

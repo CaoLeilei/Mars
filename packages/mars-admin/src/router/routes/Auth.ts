@@ -4,7 +4,7 @@ const AuthRoute: RouteRecordRaw  = {
   name: 'Auth',
   path: '/auth',
   redirect: 'Auth',
-  component: () => import('~/views/Auth/index.vue'),
+  component: () => import('@/views/Auth/index.vue'),
   meta: {
     title: '',
   },
@@ -12,7 +12,7 @@ const AuthRoute: RouteRecordRaw  = {
     {
       name: 'AuthLogin',
       path: '/auth/login',
-      component: () => import('~/views/Auth/Login.vue'),
+      component: () => import('@/views/Auth/Login.vue'),
       meta: {
         title: '用户登录~',
       }

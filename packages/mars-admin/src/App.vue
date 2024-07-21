@@ -12,7 +12,6 @@ import { RouterView } from 'vue-router';
 
 <style>
 #app {
-  text-align: center;
   color: var(--ep-text-color-primary);
   width: 100%;
   height: 100%;

@@ -21,6 +21,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
     ElProgress: typeof import('element-plus/es')['ElProgress']
+    ElRow: typeof import('element-plus/es')['ElRow']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Layouts: typeof import('./components/Layouts/index.vue')['default']
     Logos: typeof import('./components/Logos.vue')['default']

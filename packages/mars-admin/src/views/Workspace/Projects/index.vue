@@ -1,27 +1,28 @@
 <template>
-  <el-page-header class="projects">
-    <div>
-      <FileDownload />
-    </div>
-  </el-page-header>
+  <el-container class="projects">
+    <el-header class="projects__header" height="40px">
+      <el-button type="primary w-12">创建项目</el-button>
+    </el-header>
+    <el-main class="projects__main">
+      <el-row gutter="12">
+        <el-col></el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup lang="ts">
-import FileDownload from './FileDownload.vue';
-
 </script>
 
 <style lang="scss" scoped>
 .projects {
   @apply relative w-full h-full;
 
-  ::v-deep(.ep-page-header__header) {
-    @apply h-16 pl-3 pr-3 box-border bg-white;
+  &__header {
+    @apply pl-0 pr-0;
   }
-
-  ::v-deep(.ep-page-header__main) {
-    height: calc(100vh - 170px);
-    @apply mt-0 box-border p-4 overflow-auto;
+  &__main {
+    @apply p-0;
   }
 }
 </style>

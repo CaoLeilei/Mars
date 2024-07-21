@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { RouterView  } from 'vue-router';
-import Layout from '~/components/Layouts/index.vue';
+import Layout from '@/components/Layouts/index.vue';
 import HomeMenu from './Layouts/HomeMenu.vue';
 
 </script>

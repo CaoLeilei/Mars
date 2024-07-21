@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 const EditorRoute: RouteRecordRaw  = {
   name: 'Editor',
   path: '/editor/:appId',
-  component: () => import('~/views/Editor/index.vue'),
+  component: () => import('@/views/Editor/index.vue'),
   meta: {
     title: '页面编辑器',
   },

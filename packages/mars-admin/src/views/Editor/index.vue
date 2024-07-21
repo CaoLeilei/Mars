@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useGlobalStore } from '~/store/globalStore';
-import { useAppStore } from '~/store/appStore';
+import { useGlobalStore } from '@/store/globalStore';
+import { useAppStore } from '@/store/appStore';
 import EditorHeader from './components/EditorHeader.vue';
 import EditorMenu from './components/EditorMenus.vue'
 
