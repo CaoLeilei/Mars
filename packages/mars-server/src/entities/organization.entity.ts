@@ -1,5 +1,6 @@
-import { Entity, Property } from '@mikro-orm/core'
+import { Entity, Property, OneToMany, ManyToMany, Collection } from '@mikro-orm/core'
 import { BaseEntity } from '@common/database'
+import { User } from './user.entity'
 
 @Entity({ tableName: 'organizations' })
 export class Organization extends BaseEntity {
@@ -22,8 +23,8 @@ export class Organization extends BaseEntity {
   // @JoinProperty({ name: 'organization_id' })
   // groupPermissions: GroupPermission[]
 
-  // @OneToMany(() => OrganizationUser, (organizationUser) => organizationUser.organization)
-  // organizationUsers: OrganizationUser[]
+  @ManyToMany({ entity: 'User', pivotTable: 'organization_user' })
+  organizationUsers = new Collection<User>(this)
 
   // @OneToMany(() => AppEnvironment, (appEnvironment) => appEnvironment.organization, { onDelete: 'CASCADE' })
   // @JoinProperty({ name: 'organization_id' })

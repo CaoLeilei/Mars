@@ -2,17 +2,22 @@ import {
   BeforeCreate,
   BeforeUpdate,
   BeforeUpsert,
+  Collection,
   Embeddable,
   Embedded,
   Entity,
-  Enum,
+  // Enum,
   EventArgs,
   Property,
+  OneToMany,
   wrap,
+  ManyToMany,
 } from '@mikro-orm/core'
-import { Roles } from '@common/@types/enums/permission.enum'
+// import { Roles } from '@common/@types/enums/permission.enum'
 import { BaseEntity } from '@common/database/base.entity'
 import { HelperService } from '@common/helpers/helpers.utils'
+import { AppBase } from './app.entity'
+import { Organization } from './organization.entity'
 
 @Embeddable()
 export class Social {
@@ -61,8 +66,8 @@ export class User extends BaseEntity {
   @Property()
   isTwoFactorEnabled? = false
 
-  @Enum({ items: () => Roles, array: true })
-  roles?: Roles[] = [Roles.AUTHOR]
+  // @Enum({ items: () => Roles, array: true })
+  // roles?: Roles[] = [Roles.AUTHOR]
 
   @Property({ index: true, unique: true })
   mobileNumber?: string
@@ -75,6 +80,18 @@ export class User extends BaseEntity {
 
   @Property()
   lastLogin? = new Date()
+
+  // @ManyToOne
+
+  @ManyToMany({ entity: 'Organization', pivotTable: 'organization_user' })
+  organization = new Collection<Organization>(this)
+
+  @OneToMany(() => AppBase, (app) => app.creator, {
+    orphanRemoval: true,
+    eager: false,
+    nullable: true,
+  })
+  apps = new Collection<AppBase>(this)
 
   constructor(data?: Pick<User, 'idx'>) {
     super()
