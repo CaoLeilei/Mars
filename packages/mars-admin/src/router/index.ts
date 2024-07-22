@@ -15,12 +15,14 @@ export const router = createRouter({
   ], // `routes: routes` 的缩写
 })
 
-console.log(router)
-
-// function createRouter() {}
-
-export default router
+// 添加路由的前
+router.beforeEach((to, from, next) => {
+  // console.log(to, from)
+  next()
+})
 
 // 创建标准的内容
 export function setupRouter(app: App) {
+  app.use(router)
 }
+export default router
