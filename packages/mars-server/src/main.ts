@@ -20,8 +20,6 @@ async function bootstrap() {
 
   const configService = app.get<ConfigService>(ConfigService)
 
-  console.log(HelperService.isDev())
-
   app.enable('trust proxy')
   app.set('etag', 'strong')
   app.use(bodyParser.json({ limit: '10mb' }), bodyParser.urlencoded({ limit: '10mb', extended: true }))
@@ -32,6 +30,9 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix)
 
   app.useGlobalPipes(new ValidationPipe(AppUtils.validationPipeOptions()))
+
+  // 使用全局的登录鉴权守卫
+  // app.useGlobalGuards()
 
   app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }))
   const transRes = translate('exception.unauthorized', {
