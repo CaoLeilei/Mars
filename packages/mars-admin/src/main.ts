@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from './router'
+import { setupRouter } from "./router";
 import { setupStore } from "./store";
 import * as plugins from './plugins'
 import "@/styles/index.scss";
@@ -13,9 +13,8 @@ const app = createApp(App);
 Object.values(plugins).forEach(pluginItem => {
   app.use(pluginItem)
 })
-
-app.use(router)
 setupStore(app)
+setupRouter(app)
 
 // app.use(ElementPlus);
 app.mount("#app");

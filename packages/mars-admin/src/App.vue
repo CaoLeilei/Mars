@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider namespace="ep">
+  <el-config-provider namespace="ep" themeColor="#1c5ad8">
     <div class="flex w-full h-full">
       <RouterView />
     </div>
