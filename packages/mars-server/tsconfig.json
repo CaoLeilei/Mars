@@ -23,6 +23,7 @@
       ],
     },
     "moduleResolution": "NodeNext",
+    "module": "NodeNext",
     "declaration": true,
     "outDir": "dist",
     "noUnusedLocals": false,

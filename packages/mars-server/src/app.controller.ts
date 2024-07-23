@@ -8,10 +8,6 @@ export class AppController {
   @Get()
   getHello(): any {
     const res = 1 / 0
-    // const number = 123
-    // if (number > 0) {
-    //   throw new Error('hhhhhh');
-    // }
 
     this.appService.getHello().toString()
     return { a: this.appService.getHello(), res }

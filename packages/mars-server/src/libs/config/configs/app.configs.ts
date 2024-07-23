@@ -1,17 +1,17 @@
 import { registerAs } from '@nestjs/config'
 import Joi from 'joi'
-import { APP_ENVIRONMENTS } from '@common/constant/index'
+import { APP_ENVIRONMENTS, VERSION_VALIDATION_MESSAGE } from '@common/constant/index'
 
 export const appConfigValidationSchema = {
   NODE_ENV: Joi.string()
     .valid(...APP_ENVIRONMENTS)
     .required(),
   APP_PORT: Joi.number().port().required(),
-  // API_URL: Joi.string().uri().required(),
-  // APP_PREFIX: Joi.string().required().pattern(/^v\d+/).required().messages({
-  //   "string.pattern.base": VERSION_VALIDATION_MESSAGE,
-  // }),
-  // APP_NAME: Joi.string().required(),
+  API_URL: Joi.string().uri().required(),
+  APP_PREFIX: Joi.string().required().pattern(/^v\d+/).required().messages({
+    'string.pattern.base': VERSION_VALIDATION_MESSAGE,
+  }),
+  APP_NAME: Joi.string().required(),
   // CLIENT_URL: Joi.string().uri().required(),
   // ALLOWED_HOSTS: Joi.string().optional(),
 }
