@@ -15,6 +15,7 @@ const AuthRoute: RouteRecordRaw  = {
       component: () => import('@/views/Auth/Login.vue'),
       meta: {
         title: '用户登录~',
+        noLogin: true
       }
     }
   ]
