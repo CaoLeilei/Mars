@@ -1,5 +1,6 @@
-import { Entity, Property, ManyToOne, Rel, Ref } from '@mikro-orm/core'
+import { Entity, Property, ManyToOne, Enum, Rel, Ref } from '@mikro-orm/core'
 import { BaseEntity } from '@common/database'
+import { AppPlatform } from '@common/@types'
 import { User } from './user.entity'
 
 @Entity({ tableName: 'apps' })
@@ -19,6 +20,9 @@ export class AppBase extends BaseEntity {
 
   @Property({ comment: '项目图标', default: false })
   icon?: string
+
+  @Enum({ items: () => AppPlatform, array: true })
+  platform?: AppPlatform[] = [AppPlatform.WEB]
 
   @Property({ comment: '当前版本', default: '0.0.0' })
   currentVersionId: string = '0.0.0'

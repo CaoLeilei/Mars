@@ -3,6 +3,11 @@ export enum Roles {
   AUTHOR = 'AUTHOR',
 }
 
+// export enum OrgRoles {
+//   ADMIN = 'ADMIN',
+//   MEMBER = 'MEMBER',
+// }
+
 export enum Action {
   Manage = 'manage',
   Create = 'create',

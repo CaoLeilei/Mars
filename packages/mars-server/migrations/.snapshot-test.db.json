@@ -362,11 +362,29 @@
         "id": {
           "name": "id",
           "type": "integer",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
         },
         "idx": {
           "name": "idx",
@@ -427,17 +445,8 @@
           "length": 0,
           "mappedType": "datetime"
         },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        },
-        "user_id": {
-          "name": "user_id",
+        "role": {
+          "name": "role",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -471,9 +480,11 @@
         {
           "keyName": "primary",
           "columnNames": [
-            "id"
+            "id",
+            "organization_id",
+            "user_id"
           ],
-          "composite": false,
+          "composite": true,
           "constraint": true,
           "primary": true,
           "unique": true
@@ -943,6 +954,92 @@
             "id"
           ],
           "referencedTableName": "user",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "organization_id": {
+          "name": "organization_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "organization_user",
+      "indexes": [
+        {
+          "columnNames": [
+            "organization_id"
+          ],
+          "composite": false,
+          "keyName": "organization_user_organization_id_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "keyName": "organization_user_user_id_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "organization_id",
+            "user_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "organization_user_organization_id_foreign": {
+          "constraintName": "organization_user_organization_id_foreign",
+          "columnNames": [
+            "organization_id"
+          ],
+          "localTableName": "organization_user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "organizations",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "organization_user_user_id_foreign": {
+          "constraintName": "organization_user_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "organization_user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "user",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       },

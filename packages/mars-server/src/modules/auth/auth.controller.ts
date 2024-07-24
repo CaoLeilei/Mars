@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get } from '@nestjs/common'
 import { Auth, GenericController, LoggedInUser } from '@common/decorators'
 import { TokenService } from '@libs/token/token.service'
 import { UserLoginDto } from './dtos/user-login.dto'
+import { UserRegisterDto } from './dtos/user-register.dto'
 import { RefreshTokenDto } from './dtos/refresh-token.dto'
 import { AuthService } from './auth.service'
 
@@ -23,8 +24,14 @@ export class AuthController {
     return this.authService.login(userLoginDto)
   }
 
+  /**
+   * 用户注册接口
+   * @param userRegisterDto 注册相关的数据
+   * @returns
+   */
   @Post('register')
-  public async Register(userLoginDto: UserLoginDto): Promise<any> {
+  public async Register(@Body() userRegisterDto: UserRegisterDto): Promise<any> {
+    console.log(userRegisterDto)
     return 'hello world' // Observable.fron
   }
 

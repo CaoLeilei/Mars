@@ -6,14 +6,14 @@ import {
   Embeddable,
   Embedded,
   Entity,
-  // Enum,
+  Enum,
   EventArgs,
   Property,
   OneToMany,
   wrap,
   ManyToMany,
 } from '@mikro-orm/core'
-// import { Roles } from '@common/@types/enums/permission.enum'
+import { Roles } from '@common/@types/enums/permission.enum'
 import { BaseEntity } from '@common/database/base.entity'
 import { HelperService } from '@common/helpers/helpers.utils'
 import { AppBase } from './app.entity'
@@ -66,8 +66,8 @@ export class User extends BaseEntity {
   @Property()
   isTwoFactorEnabled? = false
 
-  // @Enum({ items: () => Roles, array: true })
-  // roles?: Roles[] = [Roles.AUTHOR]
+  @Enum({ items: () => Roles, array: true })
+  roles?: Roles[] = [Roles.AUTHOR]
 
   @Property({ index: true, unique: true })
   mobileNumber?: string
