@@ -4,9 +4,10 @@ import { LoggerErrorInterceptor } from 'nestjs-pino'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { I18nValidationExceptionFilter } from 'nestjs-i18n'
 import { NestExpressApplication, ExpressAdapter } from '@nestjs/platform-express'
-import * as cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import { TransformInterceptor } from '@common/interceptors/index'
+import { HttpExceptionFilter } from '@common/filters'
 import { HelperService, AppUtils } from '@common/helpers'
 import { translate } from '@libs/i18n/translate'
 import { AppModule } from './app.module'
@@ -30,10 +31,12 @@ async function bootstrap() {
   app.set('etag', 'strong')
 
   app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }))
+  app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalPipes(new ValidationPipe(AppUtils.validationPipeOptions()))
 
   app.use(cookieParser)
-  app.use(bodyParser.json({ limit: '10mb' }), bodyParser.urlencoded({ limit: '10mb', extended: true }))
+
+  // app.use(bodyParser.json({ limit: '10mb' }), bodyParser.urlencoded({ limit: '10mb', extended: true }))
 
   // 设置全局前缀
   const globalPrefix = configService.get('app.prefix', { infer: true }) || ''

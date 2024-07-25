@@ -4,36 +4,20 @@ import { EntityManager } from '@mikro-orm/better-sqlite'
 import { BaseRepository } from '@common/database'
 // import { itemDoesNotExistKey, translate } from '@libs/i18n'
 import { itemDoesNotExistKey, translate } from '@libs/i18n/translate'
+import type { CursorPaginationDto } from '@common/dtos'
 import { User } from '@entities'
+import { BaseService } from '@libs/crud/crud.service'
+
 import { CreateUserDto } from './dtos/create-user.dto'
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService<User, CursorPaginationDto, CreateUserDto> {
+  protected readonly queryName: string = 't'
+
   constructor(
     @InjectRepository(User) private userRepository: BaseRepository<User>,
     private readonly em: EntityManager,
-  ) {}
-
-  async findOne(idx: string): Promise<User> {
-    const user = await this.userRepository.findOne({ idx })
-    if (!user) {
-      throw new NotFoundException(
-        translate(itemDoesNotExistKey, {
-          args: { item: 'User' },
-        }),
-      )
-    }
-    return user
-  }
-
-  /**
-   * 创建当前的用户以及用户的相关信息
-   * @param dto
-   * @returns
-   */
-  public async create(dto: CreateUserDto) {
-    const user = await this.userRepository.create({ ...dto })
-    this.em.persistAndFlush(user)
-    return user
+  ) {
+    super(userRepository)
   }
 }

@@ -17,17 +17,6 @@ export abstract class BaseService<
   protected queryName = 'entity'
 
   protected constructor(private readonly repository: BaseRepository<Entity>) {}
-
-  /**
-   * "Create a new entity from the given DTO, persist it, and return it."
-   *
-   * The first line creates a new entity from the given DTO. The second line persists the entity and
-   * returns a promise. The third line maps the promise to the entity
-   * @param dto - The DTO that will be used to create the entity.
-   * @param _user - The user that is making the request.
-   * @returns An observable of the entity that was created.
-   */
-
   async create(dto: CreateDto, _user?: User): Promise<Entity> {
     const entity = this.repository.create(dto)
     await this.repository.getEntityManager().persistAndFlush(entity)
