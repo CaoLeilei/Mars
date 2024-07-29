@@ -2,6 +2,7 @@ import { Controller, applyDecorators } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { capitalize } from 'helper-fns'
 import { Auth } from './auth.decorator'
+import { AuthGuard } from '../guards/auth.guard'
 
 /**
  * It takes a name and a boolean value and returns a decorator that applies the Controller, ApiTags,

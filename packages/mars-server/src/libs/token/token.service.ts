@@ -43,7 +43,6 @@ export class TokenService {
       const token: string = await this.jwt.signAsync({ ...pick(user, ['roles', 'isTwoFactorEnabled']) }, options)
       return token
     } catch (err) {
-      console.log(err)
       throw err
     }
   }

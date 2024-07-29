@@ -11,6 +11,10 @@
           <el-icon><Tickets /></el-icon>
           <span class="wp-menu__text">数据库管理</span>
         </el-menu-item>
+        <el-menu-item index="1-2">
+          <el-icon><Tickets /></el-icon>
+          <span class="wp-menu__text">身份认证</span>
+        </el-menu-item>
         <el-menu-item index="1-3">
           <el-icon><Tickets /></el-icon>
           <span class="wp-menu__text">数据源管理</span>

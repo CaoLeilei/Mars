@@ -18,6 +18,8 @@ async function bootstrap() {
     bufferLogs: true,
     abortOnError: false,
     snapshot: true,
+    // bufferLogs: true,
+    // abortOnError: false,
   })
 
   // 读取项目相关的配置项的内容
@@ -27,6 +29,7 @@ async function bootstrap() {
   const urlPrefix = configService.get('app.prefix')
   // const appUrl = `http://localhost:${port}/${globalPrefix}`
 
+
   app.enable('trust proxy')
   app.set('etag', 'strong')
 
@@ -34,7 +37,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalPipes(new ValidationPipe(AppUtils.validationPipeOptions()))
 
-  app.use(cookieParser)
+  app.use(cookieParser())
 
   // app.use(bodyParser.json({ limit: '10mb' }), bodyParser.urlencoded({ limit: '10mb', extended: true }))
 

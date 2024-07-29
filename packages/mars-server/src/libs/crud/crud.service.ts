@@ -24,11 +24,7 @@ export abstract class BaseService<
     return entity
   }
 
-  /**
-   * It takes in a SearchOptionsDto object, and returns an Observable of a Pagination object
-   * @param dto - The DTO that will be used to search for the entities.
-   * @returns An observable of a pagination object.
-   */
+
   async findAll(dto: PaginationRequest): Promise<PaginationResponse<Entity>> {
     const qb = this.repository.createQueryBuilder(this.queryName)
 
@@ -61,12 +57,20 @@ export abstract class BaseService<
   }
 
   /**
-   * It returns an observable of type Entity.
-   * @param index - The name of the index to search.
-   * @returns An observable of type Entity.
+   * 根据索引异步查找一个实体。
+   *
+   * 此方法通过指定的索引值查询实体仓库中的一个实体。如果找不到对应的实体，则抛出一个表示实体不存在的异常。
+   * 这是对数据库操作的封装，旨在提供一种简洁的获取单个实体的方式。
+   *
+   * @param index - 实体的索引值，用于查询实体。
+   * @returns 返回查询到的实体。
+   * @throws NotFoundException - 如果找不到实体，则抛出此异常。
    */
   async findOne(index: string): Promise<Entity> {
+    // 根据索引查询实体。
     const entity = await this.repository.findOne({ idx: index } as FilterQuery<Entity>)
+
+    // 如果查询结果为空，则抛出实体不存在的异常。
     if (!entity) {
       throw new NotFoundException(
         translate(itemDoesNotExistKey, {
@@ -74,30 +78,47 @@ export abstract class BaseService<
         }),
       )
     }
+
+    // 返回查询到的实体。
     return entity
   }
 
   /**
-   * It updates an entity.
-   * @param index - The name of the index you want to update.
-   * @param dto - The data transfer object that will be used to update the entity.
-   * @returns An observable of the entity that was updated.
+   * 异步更新实体数据。
+   *
+   * 此方法通过提供的索引和数据传输对象（DTO）来更新实体。它首先根据索引查找实体，
+   * 然后将DTO的数据分配给找到的实体，最后提交更改。
+   *
+   * @param index - 实体的唯一索引，用于查找需要更新的实体。
+   * @param dto - 数据传输对象，包含用于更新实体的新数据。
+   * @returns 返回更新后的实体。
    */
   async update(index: string, dto: UpdateDto): Promise<Entity> {
+    // 根据索引查找实体。
     const item = await this.findOne(index)
+    // 将DTO的数据赋值给找到的实体。
     this.repository.assign(item, dto as EntityData<FromEntityType<Entity>>)
+    // 提交更改，使实体更新生效。
     await this.repository.getEntityManager().flush()
+    // 返回更新后的实体。
     return item
   }
 
   /**
-   * It removes an entity from the database
-   * @param index - string - The index of the entity to remove.
-   * @returns An observable of the entity that was removed.
+   * 异步删除指定索引的实体。
+   *
+   * 此方法首先根据索引查找实体，然后使用仓库中的软删除功能删除该实体，并立即刷新仓库，
+   * 以确保数据库中的实体也被删除。删除操作完成后，返回被删除的实体。
+   *
+   * @param index - 要删除的实体的id。
+   * @returns 被删除的实体。
    */
   async remove(index: string): Promise<Entity> {
+    // 通过实体的ID
     const item = await this.findOne(index)
+    // 对找到的实体执行软删除操作，并立即刷新仓库。
     await this.repository.softRemoveAndFlush(item)
+    // 返回被删除的实体。
     return item
   }
 }

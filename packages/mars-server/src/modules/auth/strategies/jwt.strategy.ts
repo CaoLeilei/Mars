@@ -10,13 +10,13 @@ import { AuthService } from '../auth.service'
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly authService: AuthService,
-    configService: ConfigService<any, true>,
+    configService: ConfigService<Configs, true>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: configService.get('jwt.secret', { infer: true }),
       ignoreExpiration: false,
-      passReqToCallback: true,
+      // passReqToCallback: true,
     })
   }
 
