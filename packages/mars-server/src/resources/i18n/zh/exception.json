@@ -1,17 +1,16 @@
 {
   "itemExists": "{item} already registered with {property}!",
-  "itemDoesNotExist": "{item} does not exist or unauthorized!",
+  "itemDoesNotExist": "{item}不存在或未经授权!",
   "unauthorized": "Unauthorized!",
   "internalError": "Internal Server Error!",
   "otpRequired": "OTP required!",
-  "usernameRequired": "Username is required!",
-  "followerFollowingSame": "Follower and following cannot be same!",
+  "usernameRequired": "用户名不能为空！",
   "invalidOTP": "Invalid OTP!",
-  "inactiveUser": "You account has not been activated yet!",
+  "inactiveUser": "您的帐户尚未激活！",
   "invalidCredentials": "Credential didn't match!",
-  "forbidden": "Access to the requested resource is forbidden!",
-  "userInactive": "User is inactive please contact your administrator for further help!",
-  "notFound": "Data not found!",
+  "forbidden": "禁止访问所请求的资源!",
+  "userInactive": "当前用户被锁，请联系您的管理员!",
+  "notFound": "数据未被找到!",
   "invalidTwoFaCode": "Invalid authentication code!",
   "emailLooksGood": "ईमेल राम्रो देखिन्छ",
   "itemExpired": "{item} has expired!",
@@ -22,6 +21,6 @@
   "invalidRefreshToken": "Invalid refresh token!",
   "deleteDefaultError": "Cannot delete default item!",
   "tooManyTries": "Too many tries!",
-  "refreshToken": "Refresh token {error}!. Please login again!",
-  "token": "Token {error}!. Please login again!"
+  "refreshToken": "Token失效！请重新登录！",
+  "token": "Token失效！请重新登录！"
 }

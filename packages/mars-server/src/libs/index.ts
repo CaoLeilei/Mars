@@ -1,4 +1,5 @@
 export * from './config'
+export * from './pino'
 export * from './cache'
 export * from './orm.module'
 export * from './crud'

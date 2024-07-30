@@ -7,6 +7,7 @@ import {
   NestOrmModule,
   NestCaslModule,
   NestJwtModule,
+  NestPinoModule,
 } from '@libs/index'
 
 import { AuthModule } from '@modules/auth/auth.module'
@@ -21,6 +22,7 @@ import { UsersModule } from '@modules/users/users.module'
     NestOrmModule,
     NestCaslModule,
     NestJwtModule,
+    NestPinoModule,
     UsersModule,
     AuthModule,
     AppsModule,

@@ -29,7 +29,6 @@ async function bootstrap() {
   const urlPrefix = configService.get('app.prefix')
   // const appUrl = `http://localhost:${port}/${globalPrefix}`
 
-
   app.enable('trust proxy')
   app.set('etag', 'strong')
 

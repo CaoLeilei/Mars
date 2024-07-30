@@ -31,7 +31,7 @@ export class AuthService {
     if (!user) {
       throw new ForbiddenException(
         translate(itemDoesNotExistKey, {
-          args: { item: 'Account' },
+          args: { item: '该账号' },
         }),
       )
     }
@@ -60,6 +60,11 @@ export class AuthService {
     return user
   }
 
+  /**
+   * 用户进行登录
+   * @param loginDot
+   * @returns
+   */
   async login(loginDot: UserLoginDto): Promise<AuthenticationResponse> {
     const user = await this.validateUser(loginDot.username, loginDot.password)
     let jwtRefreshTokenExp: number | undefined = this.configService.get('jwt.refreshExpiry', { infer: true })

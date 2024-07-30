@@ -30,7 +30,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, SuccessRespon
     return next.handle().pipe(
       catchError((error: Error) => {
         const message: string = error?.message || '服务器有误~'
-        return throwError(() => new HttpException(message, 500))
+        return throwError(() => error || new HttpException(message, 500))
       }),
       map((data) => {
         return {
