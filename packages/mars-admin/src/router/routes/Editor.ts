@@ -6,6 +6,7 @@ const EditorRoute: RouteRecordRaw  = {
   component: () => import('@/views/Editor/index.vue'),
   meta: {
     title: '页面编辑器',
+    noLogin: true,
   },
 }
 
