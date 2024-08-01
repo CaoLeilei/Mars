@@ -17,6 +17,15 @@ const AuthRoute: RouteRecordRaw  = {
         title: '用户登录~',
         noLogin: true
       }
+    },
+    {
+      name: 'Singpup',
+      path: '/singup',
+      component: () => import('@/views/Auth/SingUp.vue'),
+      meta: {
+        title: '用户注册',
+        noLogin: true
+      }
     }
   ]
 }

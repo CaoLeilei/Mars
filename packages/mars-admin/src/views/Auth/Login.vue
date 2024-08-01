@@ -5,12 +5,12 @@
       <p>请使用账号密码进行登录</p>
     </div>
 
-    <el-form :model="form" :rules="rules" size="large" ref="loginFormRef" class="login-form">
-      <el-form-item prop="username" class="login__form-item">
-        <el-input v-model="form.username" placeholder="用户名"></el-input>
+    <el-form :model="form" :rules="rules" label-position="top" size="large" ref="loginFormRef" class="login-form">
+      <el-form-item prop="username" class="login__form-item" label="账号（或者是邮箱）">
+        <el-input v-model="form.username" placeholder="用户名" :maxlength="64"></el-input>
       </el-form-item>
-      <el-form-item prop="password" class="login__form-item">
-        <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
+      <el-form-item prop="password" class="login__form-item" label="密码">
+        <el-input v-model="form.password" type="password" placeholder="请输入密码" maxlength="32"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" class="login__button" @click="handleSubmitBtnClick" >
@@ -21,13 +21,20 @@
 
     <el-divider></el-divider>
 
-    <div class="login__footer">没有账号，<RouterLink>立即注册</RouterLink></div>
+    <div class="login__footer">
+      <div>没有账号，<RouterLink class="login__footer-link">立即注册</RouterLink></div>
+      <div>
+        <router-link class="login__footer-link">找回密码</router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { RouterLink } from 'vue-router'
+import type { Ref } from 'vue';
+import { RouterLink } from 'vue-router';
+import { FormProps } from 'element-plus';
 
 const form = reactive({
   username: '',
@@ -39,8 +46,11 @@ const rules = reactive({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 });
 
-const loginFormRef = ref(null)
+const loginFormRef: Ref<FormProps | null> = ref(null)
 
+/**
+ * 点击提交登录按钮的操作
+ */
 const handleSubmitBtnClick = () => {
   loginFormRef?.value?.validate((valid: boolean) => {
     if (valid) {
@@ -63,6 +73,9 @@ const handleSubmitBtnClick = () => {
     h1 {
       @apply text-2xl font-bold mb-3;
     }
+    p {
+      @apply text-gray-500;
+    }
   }
 
   &__form-item {
@@ -73,8 +86,10 @@ const handleSubmitBtnClick = () => {
   }
 
   &__footer {
-    @apply text-center relative;
+    @apply flex justify-between text-center relative text-gray-500;
   }
-
+  &__footer-link {
+    @apply relative text-blue-600 hover:text-blue-700;
+  }
 }
 </style>

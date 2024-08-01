@@ -27,6 +27,10 @@
           <el-icon><Tickets /></el-icon>
           <span class="wp-menu__text">人员管理</span>
         </el-menu-item>
+        <el-menu-item index="1-6">
+          <el-icon><Setting /></el-icon>
+          <span class="wp-menu__text">系统设置</span>
+        </el-menu-item>
       </el-menu>
     </div>
     <div class="wp-aside__bottom"></div>
