@@ -16,7 +16,7 @@
         </div>
         <el-divider direction="vertical"></el-divider>
         <div class="project-card__footer-item">
-          <el-button text class="project-card__footer-button">修改</el-button>
+          <el-button text class="project-card__footer-button">编辑</el-button>
         </div>
       </div>
     </template>
@@ -24,6 +24,37 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => {
+      return null
+    },
+  },
+})
+
+const handleDeleteBtnClick = () => {
+  if (props.data) {
+    console.log(props.data)
+  }
+}
+
+const handleInfoBtnClick = () => {
+  if (props.data) {
+    console.log(props.data)
+  }
+}
+
+const handleEditBtnClick = () => {
+  if (props.data) {
+    // 进行路由的跳转
+    router.push({ path: '/editor' });
+  }
+}
 
 </script>
 

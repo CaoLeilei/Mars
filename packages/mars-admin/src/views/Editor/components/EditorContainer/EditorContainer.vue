@@ -5,7 +5,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import EditorView from './EditorView.vue'
+
 
 </script>
 
