@@ -1,27 +1,26 @@
 <template>
-  <ElContainer class="relative w-full h-full bg-gray-200">
-    <ElHeader class="bg-white border-b border-b-gray-300">
-      <EditorHeader />
-    </ElHeader>
-    <ElContainer class="h-full">
-      <ElAside width="65px" class="bg-white border-r border-r-gray-300">
-        <EditorMenu />
-      </ElAside>
-      <ElAside width="301px" class="bg-gray-100 border-r border-r-gray-300">
-        <EditorAside />
-      </ElAside>
-      <ElMain>
-        <EditorContainer />
-      </ElMain>
-      <ElAside width="301px" class="bg-gray-100 border-l border-l-gray-300"></ElAside>
-    </ElContainer>
-  </ElContainer>
+  <el-container class="relative w-full h-full bg-gray-200">
+    <el-header class="bg-white border-b border-b-gray-300">
+      <editor-header />
+    </el-header>
+    <el-container class="h-full">
+      <el-aside width="65px" class="bg-white border-r border-r-gray-300">
+        <editor-menu />
+      </el-aside>
+      <el-aside width="301px" class="bg-gray-100 border-r border-r-gray-300">
+        <editor-aside />
+      </el-aside>
+      <el-main>
+        <editor-container />
+      </el-main>
+      <el-aside width="301px" class="bg-gray-100 border-l border-l-gray-300"></el-aside>
+    </el-container>
+  </el-container>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useGlobalStore } from '@/store/globalStore';
-import { useAppStore } from '@/store/appStore';
+import { useGlobalStore, useAppStore } from '@/store';
 import EditorHeader from './components/EditorHeader.vue';
 import EditorMenu from './components/EditorMenus.vue'
 

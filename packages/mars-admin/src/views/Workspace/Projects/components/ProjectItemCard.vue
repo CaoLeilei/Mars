@@ -16,7 +16,7 @@
         </div>
         <el-divider direction="vertical"></el-divider>
         <div class="project-card__footer-item">
-          <el-button text class="project-card__footer-button">编辑</el-button>
+          <el-button text class="project-card__footer-button" @click="handleEditBtnClick">编辑</el-button>
         </div>
       </div>
     </template>
@@ -50,10 +50,11 @@ const handleInfoBtnClick = () => {
 }
 
 const handleEditBtnClick = () => {
-  if (props.data) {
-    // 进行路由的跳转
-    router.push({ path: '/editor' });
-  }
+  router.push({ path: '/editor/1' });
+  // if (props.data) {
+  //   // 进行路由的跳转
+
+  // }
 }
 
 </script>
