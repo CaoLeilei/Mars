@@ -10,12 +10,6 @@
         </div>
         <div class="editor-menus__item">
           <div class="editor-menus__icon">
-            <el-icon><Grid /></el-icon>
-          </div>
-          <div class="editor-menus__text">组件</div>
-        </div>
-        <div class="editor-menus__item">
-          <div class="editor-menus__icon">
             <el-icon><MessageBox /></el-icon>
           </div>
           <div class="editor-menus__text">接口</div>

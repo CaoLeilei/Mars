@@ -1,0 +1,6 @@
+html, body {
+  @apply relative h-full w-full overflow-auto;
+}
+#__nuxt {
+  @apply relative h-full;
+}
